@@ -4,6 +4,26 @@
   },
   "dependencies": {
     "inquirer": "^8.2.5",
-    "jest": "^24.9.0"
-  }
+    "jest": "^29.5.0"
+  },
+  "name": "leisurely-logos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhodemc/leisurely-logos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rhodemc/leisurely-logos/issues"
+  },
+  "homepage": "https://github.com/rhodemc/leisurely-logos#readme",
+  "description": ""
 }
