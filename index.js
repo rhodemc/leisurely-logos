@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 // imported modules
-const { Circle, Square, Triangle } = require ("./lib/shapes.js");
+const { Circle, Square, Triangle } = require("./lib/shapes.js");
 
 // array of questions for user input
 const logoQuestions = () => {
@@ -11,47 +11,69 @@ const logoQuestions = () => {
     {
       type: "input",
       name: "logoText",
-      message: "Please enter (3) letters or numbers that represent your company.",
+      message: "Please enter (3) letters or numbers that represent your company:",
     },
     {
       type: "input",
-      name: "logoColor",
-      message: "Please enter a color for your text.",
+      name: "textColor",
+      message: "Please enter a specific color (or hexidecimal number) for your text:",
     },
     {
       type: "list",
       name: "shapeChoice",
       message: "Which shape would you like to use?",
-      choice: { Circle, Square, Triangle },
+      choices: ["Circle", "Square", "Triangle"],
     },
     {
-        type: "input",
-        name: "shapeColor",
-        message: "Please enter a color for your shape.",
-    }
+      type: "input",
+      name: "shapeColor",
+      message: "Please enter a color (or hexidecimal number) for your shape:",
+    },
   ]);
 };
 
-// function to write svg file
-const writeSVG = (userLogoData) => {
-    fs.writeFile("logo.svg", userLogoData, (err) =>
-      err ? console.log(err) : console.log("Generated logo.svg!")
-    );
+const generateLogo = (answers) => {
+  let newSvgString = "";
+
+  switch (answers.shapeChoice) {
+    case "Circle":
+      const newCircle = new Circle(answers.shapeColor, answers.textColor, answers.logoText);
+      newSvgString = `${newCircle.render()}`;
+      break;
+
+    case "Square":
+      const newSquare = new Square(answers.shapeColor, answers.textColor, answers.logoText);
+      newSvgString = `${newSquare.render()}`;
+      break;
+
+    case "Triangle":
+      const newTriangle = new Triangle(answers.shapeColor, answers.textColor, answers.logoText);
+      newSvgString = `${newTriangle.render()}`;
+      break;
+  }
+  return newSvgString;
 };
+
+// function to write svg file
+function writeSvg(newSvgString) {
+  fs.writeFile("./examples/logo.svg", newSvgString, (err) =>
+    err ? console.log(err) : console.log("Generated logo.svg!")
+  );
+}
 
 // function to initialize program
-function generateLogo() {
-    logoQuestions()
+function generateSvg() {
+  logoQuestions()
     .then((answers) => {
-        return generateSVG(answers);
+      return generateLogo(answers);
     })
-    .then((userLogoData) => {
-        return writeSVG(userLogoData);
+    .then((newSvgString) => {
+      return writeSvg(newSvgString);
     })
     .catch((err) => {
-        console.log(err);
+      console.log(err);
     });
-};
+}
 
 // function call to initialize program
-generateLogo();
+generateSvg();
